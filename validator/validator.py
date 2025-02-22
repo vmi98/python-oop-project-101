@@ -7,6 +7,9 @@ class Validator:
     
     def list(self):
         return ListValidator()
+    
+    def dict(self):
+        return DictValidator()
 
 
 class StringValidator:
@@ -99,4 +102,20 @@ class ListValidator:
 
         return True
     
+
+class DictValidator:
+    def __init__(self):
+        self.rules = {}
+
+    def shape(self, rules):
+        self.rules = rules
+
+    def is_valid(self, val_data):
+        for k in val_data.keys():
+            schema = self.rules[k] 
+            if not schema.is_valid(val_data[k]):
+                return False
+        return True
+
+
 

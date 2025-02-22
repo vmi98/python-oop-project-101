@@ -62,3 +62,18 @@ def test_size_of():
     schema.sizeof(2)
     assert not schema.is_valid(['hexlet'])
     assert schema.is_valid(['hexlet', 'code-basics'])
+
+
+def test_shape():
+    v = Validator()
+    schema = v.dict()
+
+    schema.shape({
+    'name': v.string().required(),
+    'age': v.number().positive(),
+    })
+
+    assert schema.is_valid({'name': 'kolya', 'age': 100}) 
+    assert schema.is_valid({'name': 'maya', 'age': None}) 
+    assert not schema.is_valid({'name': '', 'age': None})  
+    assert not schema.is_valid({'name': 'ada', 'age': -5})  
