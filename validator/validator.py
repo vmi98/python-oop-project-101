@@ -4,6 +4,9 @@ class Validator:
     
     def number(self):
         return NumberValidator()
+    
+    def list(self):
+        return ListValidator()
 
 
 class StringValidator:
@@ -57,13 +60,10 @@ class NumberValidator:
         self.rules['range'] = [start, end]
 
     def is_valid(self, number):
-        if number is None:
+        if number is None and not isinstance(number, int):
             return not self.rules['required']
     
         if not isinstance(number, int):
-            return False
-        
-        if self.rules['required'] and not number and number != 0:
             return False
             
         if self.rules['positive'] and number < 0:
@@ -74,6 +74,29 @@ class NumberValidator:
 
         return True
 
+
+class ListValidator:
+    def __init__(self):
+        self.rules = {'required': False, 'sizeof': None}
+
+    def required(self):
+        self.rules['required'] = True
+        return self
     
+    def sizeof(self, sizeof):
+        self.rules['sizeof'] = sizeof
+        return self
+    
+    def is_valid(self, items):
+        if items is None and not isinstance(items, list):
+            return not self.rules['required']
+    
+        if not isinstance(items, list):
+            return False
+            
+        if self.rules['sizeof'] and len(items) != self.rules['sizeof']:
+            return False 
+
+        return True
     
 

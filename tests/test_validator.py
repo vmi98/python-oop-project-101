@@ -14,10 +14,15 @@ def test_none_value():
     assert schema2.is_valid('what does the fox say')
 
     schema3 = v.number()
-    assert schema3.is_valid(0)
+    assert schema3.is_valid(None)
     schema3.required()
-    assert schema3.is_valid(0)
-    assert not schema3.is_valid(None)  
+    assert not schema3.is_valid(None) 
+    assert schema3.is_valid(0)  
+
+    schema4 = v.list()
+    assert schema4.is_valid(None)
+    schema4.required()
+    assert not schema4.is_valid(None)
 
 
 def test_min_len():
@@ -49,3 +54,11 @@ def test_range():
     schema.range(-5, 5)
     assert not schema.is_valid(-7) 
     assert schema.is_valid(5)
+
+
+def test_size_of():
+    v = Validator()
+    schema = v.list()
+    schema.sizeof(2)
+    assert not schema.is_valid(['hexlet'])
+    assert schema.is_valid(['hexlet', 'code-basics'])
