@@ -111,8 +111,9 @@ class NumberValidator(BaseValidator):
         if self.rules['positive'] and number <= 0:
             return False
             
-        if self.rules['range'] and number not in self.rules['range']:
-            return False 
+        if self.rules['range']:
+            if not (self.rules['range'][0] <= number <= self.rules['range'][1]):
+                return False
         
         if self.rules['customized']:
             for validator_name, args in self.rules['customized'].items():
