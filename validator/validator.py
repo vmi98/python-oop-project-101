@@ -171,6 +171,7 @@ class DictValidator(BaseValidator):
 
     def shape(self, rules):
         self.rules = rules
+        return self
 
     def is_valid(self, val_data):
         for k in val_data.keys():
