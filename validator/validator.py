@@ -38,7 +38,7 @@ class StringValidator(BaseValidator):
     def __init__(self, validator):
         self.validator = validator 
         self.rules = {'required': False, 'min_len': None, 'contains': None,
-        'customized': {}}
+            'customized': {}}
 
     def test(self, validator_name, *args):
         self.rules['customized'][validator_name] = args
@@ -74,7 +74,10 @@ class StringValidator(BaseValidator):
         
         if self.rules['customized']:
             for validator_name, args in self.rules['customized'].items():
-                validator_fn = self.validator.validators.get('string', {}).get(validator_name)
+                validator_fn = (
+                    self.validator.validators.get('string', {})
+                    .get(validator_name)
+                )
                 if not validator_fn(text, *args):
                     return False
         
@@ -84,7 +87,8 @@ class StringValidator(BaseValidator):
 class NumberValidator(BaseValidator):
     def __init__(self, validator):
         self.validator = validator 
-        self.rules = {'required': False, 'positive': False, 'range': None, 'customized': {}}
+        self.rules = {'required': False, 'positive': False, 'range': None,
+            'customized': {}}
 
     def test(self, validator_name, *args):
         self.rules['customized'][validator_name] = args
@@ -117,7 +121,10 @@ class NumberValidator(BaseValidator):
         
         if self.rules['customized']:
             for validator_name, args in self.rules['customized'].items():
-                validator_fn = self.validator.validators.get('number', {}).get(validator_name)
+                validator_fn = (
+                    self.validator.validators.get('number', {})
+                    .get(validator_name)
+                )
                 if not validator_fn(number, *args):
                     return False
                 
@@ -153,7 +160,10 @@ class ListValidator(BaseValidator):
 
         if self.rules['customized']:
             for validator_name, args in self.rules['customized'].items():
-                validator_fn = self.validator.validators.get('list', {}).get(validator_name)
+                validator_fn = (
+                    self.validator.validators.get('list', {})
+                    .get(validator_name)
+                )
                 if not validator_fn(items, *args):
                     return False
         
@@ -181,7 +191,10 @@ class DictValidator(BaseValidator):
             
         if self.rules.get('customized'):
             for validator_name, args in self.rules['customized'].items():
-                validator_fn = self.validator.validators.get('dict', {}).get(validator_name)
+                validator_fn = (
+                    self.validator.validators.get('dict', {})
+                    .get(validator_name)
+                )
                 if not validator_fn(val_data, *args):
                     return False
         return True

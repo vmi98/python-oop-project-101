@@ -82,7 +82,11 @@ def test_shape():
 def test_custom_validator():
     v = Validator()
 
-    v.add_validator('string', 'startWith', lambda value, start: value.startswith(start))
+    v.add_validator(
+        'string',
+        'startWith',
+        lambda value, start: value.startswith(start)
+    )
 
     schema = v.string().test('startWith', 'H')
     assert not schema.is_valid('exlet') 
