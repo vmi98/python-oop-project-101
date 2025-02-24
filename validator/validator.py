@@ -108,7 +108,7 @@ class NumberValidator(BaseValidator):
         if not isinstance(number, int):
             return False
             
-        if self.rules['positive'] and number < 0:
+        if self.rules['positive'] and number <= 0:
             return False
             
         if self.rules['range'] and number not in self.rules['range']:
