@@ -77,3 +77,19 @@ def test_shape():
     assert schema.is_valid({'name': 'maya', 'age': None}) 
     assert not schema.is_valid({'name': '', 'age': None})  
     assert not schema.is_valid({'name': 'ada', 'age': -5})  
+
+
+def test_custom_validator():
+    v = Validator()
+
+    v.add_validator('string', 'startWith', lambda value, start: value.startswith(start))
+
+    schema = v.string().test('startWith', 'H')
+    assert not schema.is_valid('exlet') 
+    assert schema.is_valid('Hexlet') 
+
+    v.add_validator('number', 'min', lambda value, min: value >= min)
+
+    schema = v.number().test('min', 5)
+    assert not schema.is_valid(4) 
+    assert schema.is_valid(6) 
